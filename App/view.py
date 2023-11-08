@@ -78,7 +78,9 @@ while True:
         print("Menor Llave: " + str(controller.minKey(cont)))
         print("Mayor Llave: " + str(controller.maxKey(cont)))
         print("Altura del arbol de areas: " + str(controller.indexHeightAreas(cont)))
-
+        print("Elementos en el arbol de areas: " + str(controller.indexSizeAreas(cont)))
+        print("Menor Llave de areas: " + str(controller.minKeyAreas(cont)))
+        print("Mayor Llave de areas: " + str(controller.maxKeyAreas(cont)))
 
     elif int(inputs[0]) == 3:
         print("\nBuscando crimenes en un rango de fechas: ")
@@ -107,4 +109,3 @@ while True:
         print("\nTotal de crimenes en el rango de areas: " + str(total))
     else:
         sys.exit(0)
-sys.exit(0)

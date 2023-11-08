@@ -60,7 +60,7 @@ def newAnalyzer():
     analyzer["crimes"] = lt.newList("SINGLE_LINKED", compareIds)
     analyzer["dateIndex"] = om.newMap(omaptype="RBT",
                                       comparefunction=compareDates)
-    analyzer["areaIndex"] = None
+    analyzer["areaIndex"] = om.newMap(omaptype="RBT",comparefunction=compareAreas)
     return analyzer
 
 
@@ -71,9 +71,11 @@ def addCrime(analyzer, crime):
     """
     adicionar un crimen a la lista de crimenes y en el arbol
     """
-    lt.addLast(analyzer["crimes"], crime)
-    updateDateIndex(analyzer["dateIndex"], crime)
     
+    lt.addLast(analyzer["crimes"], crime)
+    
+   
+    updateDateIndex(analyzer["dateIndex"], crime)
     updateAreaIndex(analyzer["areaIndex"], crime)
     return analyzer
 
@@ -92,7 +94,8 @@ def updateAreaIndex(map, crime):
     # revisar si el area ya esta en el indice
 
     # si el area ya esta en el indice, adicionar el crimen a la lista
-    area = crime["REPORTING_AREA"].strip() if crime["REPORTING_AREA"] is not None else "9999"
+    
+    area = crime["REPORTING_AREA"].strip() if crime["REPORTING_AREA"] not in ["", " ", None] else "9999"
     entrada = om.get(map, area)
     
     if entrada is None:
@@ -251,7 +254,7 @@ def indexSizeAreas(analyzer):
     """
 
     if analyzer["areaIndex"] is not None:
-        return om.height(analyzer["areaIndex"])
+        return om.size(analyzer["areaIndex"])
     else:
         return 0
 
@@ -349,8 +352,16 @@ def compareAreas(area1, area2):
     """
     Compara dos areas
     """
-    # area = "REPORTING_AREA"
-    pass
+    
+    area1 = int(area1)
+    area2 = int(area2)
+    
+    if area1 == area2:
+        return 0
+    elif area1 < area2:
+        return -1
+    else:
+        return 1
 
 
 def compareOffenses(offense1, offense2):
